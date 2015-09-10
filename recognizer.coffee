@@ -2,7 +2,7 @@
 #   Recognizes image in URL using Clarifai's API
 #
 # Dependencies:
-#   None
+#   clarifai-nodejs
 #
 # Configuration:
 #   1 - Register an app at developers.clarifai.com
@@ -17,9 +17,9 @@
 #   edersantana
 
 phrases = [
-  'Remembers me of ',
+  'Reminds me of ',
   'I can only think about ',
-  'For sure this is ',
+  'For sure, this is ',
   'I would guess ',
 ]
 
