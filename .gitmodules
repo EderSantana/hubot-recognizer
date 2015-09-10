@@ -1,0 +1,3 @@
+[submodule "clarifai-nodejs"]
+	path = clarifai-nodejs
+	url = https://github.com/Clarifai/clarifai-nodejs.git
