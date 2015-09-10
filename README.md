@@ -6,7 +6,7 @@ A hubot script that interacts with Clarifai's API to recognize images.
 
 ## Installation
 
-1. Register an app on [Clarifai]('http://developers.clarifai.com'). Yup! They have
+1. Register an app on [Clarifai]('https://developer.clarifai.com/docs/'). Yup! They have
 a free tier.
 
 2. Get your client id and secret in the step above and export them as
