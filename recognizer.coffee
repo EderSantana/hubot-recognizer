@@ -24,6 +24,7 @@ phrases = [
 ]
 
 Clarifai = require('./clarifai-nodejs/clarifai_node.js')
+Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
 Clarifai.setVerbose( false )
 tHandler = (bThrottled, waitSeconds) ->
   console.log if bThrottled then "throttled. service available again in #{waitSeconds} seconds" else "not throttled"
@@ -31,12 +32,14 @@ Clarifai.setThrottleHandler tHandler
 
 module.exports = (robot) ->
   robot.respond /what is this (.*)/i, (msg) ->
-      Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
       query = msg.match[1]
       console.log Clarifai._clientId
       commonResultHandler = ( err, res ) ->
+        console.log query
+        console.log res
+        console.log err
         if err isnt null
-            if err['status_code']? is 'string'
+            if typeof err['status_code'] is 'string'
               console.log 'got an error'
               msg.send "lolwut?"
         else
