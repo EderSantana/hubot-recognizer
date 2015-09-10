@@ -2,7 +2,7 @@
 
 A hubot script that interacts with Clarifai's API to recognize images.
 
-![](./images/example.png)
+![](./images/pug_it_is.png)
 
 ## Installation
 
