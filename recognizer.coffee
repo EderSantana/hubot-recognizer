@@ -16,6 +16,13 @@
 # Author:
 #   edersantana
 
+phrases = [
+  'Remembers me of ',
+  'I can only think about ',
+  'For sure this is ',
+  'I would guess ',
+]
+
 Clarifai = require('./clarifai-nodejs/clarifai_node.js')
 Clarifai.setVerbose( false )
 tHandler = (bThrottled, waitSeconds) ->
@@ -23,7 +30,7 @@ tHandler = (bThrottled, waitSeconds) ->
 Clarifai.setThrottleHandler tHandler
 
 module.exports = (robot) ->
-  robot.respond /dafuq is (.*)/i, (msg) ->
+  robot.respond /what is this (.*)/i, (msg) ->
       Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
       query = msg.match[1]
       console.log Clarifai._clientId
@@ -35,20 +42,8 @@ module.exports = (robot) ->
         else
           console.log 'no error!!!'
           console.log res['status_code']
-          console.log msg
-          msg.send res['results'][0].result['tag']['classes'].join(', ')
-        if typeof res['status_code']? is 'string' and (res["status_code"] == "OK" or res["status_code"] == "PARTIAL_ERROR")
-          for i in [0..res.results.length-1]
-            if res["results"][i]["status_code"] == "OK"
-              console.log ('docid='+res.results[i].docid +
-                ' local_id='+res.results[i].local_id +
-                ' tags='+res["results"][i].result["tag"]["classes"])
-              msg.send res['results'][i].result['tag']['classes'].join(', ')
-            else
-              console.log ('docid='+res.results[i].docid +
-                ' local_id='+res.results[i].local_id +
-                ' status_code='+res.results[i].status_code +
-                ' error = '+res.results[i]["result"]["error"])
+          beginWith = msg.random phrases
+          msg.send beginWith + res['results'][0].result['tag']['classes'].join(', ')
 
       Clarifai.tagURL query , 'hubot-query', commonResultHandler
       Clarifai.clearThrottleHandler()
