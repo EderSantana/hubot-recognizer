@@ -16,18 +16,18 @@
 # Author:
 #   edersantana
 
+Clarifai = require('./clarifai-nodejs/clarifai_node.js')
+
 module.exports = (robot) ->
+  robot.respond /dafuq is (.*)/i, (msg) ->
+      Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
+      query = msg.match[1]
+      commonResultHandler = ( err, res ) ->
+          if res["status_code"]? == "OK"
+              # the request completed successfully
+              tags = res["results"][i].result["tag"]["classes"]
+              # tags.replace("," , ", ")
+              msg.send 'let me think...'
+              msg.send tags
 
-  Clarifai = require('./clarifai-nodejs/clarifai_node.js')
-  Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
-
-  robot.respond /recognize me (.*)/i, (msg) ->
-    query = msg.match[1]
-    commonResultHandler = ( err, res, msg=msg ) ->
-      if res["status_code"]? == "OK"
-        # the request completed successfully
-        tags = res["results"][i].result["tag"]["classes"]
-        tags.replace("," , ", ")
-        msg.send tags
-
-    Clarifai.tagURL query , 'hubot-query', commonResultHandler
+      Clarifai.tagURL query , 'hubot-query', commonResultHandler
