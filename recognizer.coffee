@@ -27,12 +27,18 @@ module.exports = (robot) ->
       Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
       query = msg.match[1]
       commonResultHandler = ( err, res ) ->
-          if res["status_code"]? == "OK"
-              # the request completed successfully
-              tags = res["results"][i].result["tag"]["classes"]
-              # tags.replace("," , ", ")
-              msg.send 'let me think...'
-              msg.send tags
+        if typeof res['status_code']? is 'string' and (res["status_code"] == "OK" or res["status_code"] == "PARTIAL_ERROR")
+          for i in [0..res.results.length-1]
+            if res["results"][i]["status_code"] == "OK"
+              console.log ('docid='+res.results[i].docid +
+                ' local_id='+res.results[i].local_id +
+                ' tags='+res["results"][i].result["tag"]["classes"])
+              msg.send res['results'][i].result['tag']['classes']
+            else
+              console.log ('docid='+res.results[i].docid +
+                ' local_id='+res.results[i].local_id +
+                ' status_code='+res.results[i].status_code +
+                ' error = '+res.results[i]["result"]["error"])
 
       Clarifai.tagURL query , 'hubot-query', commonResultHandler
       Clarifai.clearThrottleHandler()
