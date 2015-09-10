@@ -1,6 +1,6 @@
 {
   "name": "hubot-recognizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A hubot script for recognizing images",
   "main": "recognizer.coffee",
   "repository": {
