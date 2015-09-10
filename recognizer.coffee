@@ -17,6 +17,10 @@
 #   edersantana
 
 Clarifai = require('./clarifai-nodejs/clarifai_node.js')
+Clarifai.setVerbose( false )
+tHandler = (bThrottled, waitSeconds) ->
+  console.log if bThrottled then "throttled. service available again in #{waitSeconds} seconds" else "not throttled"
+Clarifai.setThrottleHandler tHandler
 
 module.exports = (robot) ->
   robot.respond /dafuq is (.*)/i, (msg) ->
@@ -31,3 +35,4 @@ module.exports = (robot) ->
               msg.send tags
 
       Clarifai.tagURL query , 'hubot-query', commonResultHandler
+      Clarifai.clearThrottleHandler()
