@@ -26,14 +26,24 @@ module.exports = (robot) ->
   robot.respond /dafuq is (.*)/i, (msg) ->
       Clarifai.initAPI(process.env.CLIENT_ID, process.env.CLIENT_SECRET)
       query = msg.match[1]
+      console.log Clarifai._clientId
       commonResultHandler = ( err, res ) ->
+        if err isnt null
+            if err['status_code']? is 'string'
+              console.log 'got an error'
+              msg.send "lolwut?"
+        else
+          console.log 'no error!!!'
+          console.log res['status_code']
+          console.log msg
+          msg.send res['results'][0].result['tag']['classes'].join(', ')
         if typeof res['status_code']? is 'string' and (res["status_code"] == "OK" or res["status_code"] == "PARTIAL_ERROR")
           for i in [0..res.results.length-1]
             if res["results"][i]["status_code"] == "OK"
               console.log ('docid='+res.results[i].docid +
                 ' local_id='+res.results[i].local_id +
                 ' tags='+res["results"][i].result["tag"]["classes"])
-              msg.send res['results'][i].result['tag']['classes']
+              msg.send res['results'][i].result['tag']['classes'].join(', ')
             else
               console.log ('docid='+res.results[i].docid +
                 ' local_id='+res.results[i].local_id +
