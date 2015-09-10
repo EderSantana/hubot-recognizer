@@ -1,0 +1,23 @@
+{
+  "name": "hubot-recognizer",
+  "version": "1.0.0",
+  "description": "A hubot script for recognizing images",
+  "main": "recognizer.coffee",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/edersantana/hubot-recognizer.git"
+  },
+  "keywords": [
+    "hubot",
+    "deep learning",
+    "image recognition"
+  ],
+  "author": "Eder Santana <https://github.com/edersantana>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edersantana/hubot-recognizer/issues"
+  },
+  "dependencies": {
+    "coffee-script": "~1.6"
+  }
+}
